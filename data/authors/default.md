@@ -2,7 +2,7 @@
 name: Alan Toa
 avatar: /static/images/avatar.png
 occupation: FE Developer
-company: -
+company: 42HOW
 email: toacncom@gmail.com
 twitter: https://twitter.com/alan_toa
 linkedin: https://www.linkedin.cn/injobs/in/alan-toa-6a86061a9
