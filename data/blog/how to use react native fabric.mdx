@@ -1,0 +1,62 @@
+---
+title: 初体验React Native Fabric新渲染系统
+date: '2022-2-24'
+tags: ['react', 'react-native','fabric']
+draft: false
+summary:
+images: []
+---
+
+# 初体验React Native Fabric新渲染系统
+
+### 前言
+
+最近一年一直专注于React和React Native，也活跃在RN社区，时刻关注RN的发展，[随着 React Native 0.68 rc1 的发布](https://reactnative.dev/blog/2022/01/21/react-native-h2-2021-recap#the-new-architecture-rollout-and-releases)，一直在前端界传闻很久的新架构之Fibric也快到来了，
+
+当然关于Fabric已经有很多文章介绍和深入探讨了，这篇文章主要是体验Fabric。
+
+### 新架构介绍
+
+之前 Meta 在18年说的要重构RN，在19年1月，RN核心维护者 @****[kelset](https://github.com/kelset)** 在Github上发了一个讨论，这篇帖子为未来几年的RN的发展奠基了方向。https://github.com/react-native-community/discussions-and-proposals/issues/91 (对RN感兴趣的同学强烈建议看一遍)
+
+其实新架构主要就是由以下四点构成：
+
+1. [Javascript Interface（JSI）](https://reactnative.dev/docs/architecture-glossary#javascript-interfaces-jsi)
+2. [Fabric](https://reactnative.dev/docs/fabric-renderer)
+3. Turbo Modules
+4. [CodeGen](https://github.com/facebook/react-native/tree/HEAD/packages/react-native-codegen)
+
+目前第一个支持Fabric的新架构的库是 [react-native-screens](https://github.com/software-mansion/react-native-screens) ，今天我们通过它去体验下Fabric。
+
+### 正文
+
+### 安装
+
+1. 使用 React Native CLI
+
+```jsx
+npx react-native init NewRN68App --version 0.68.0-rc.1
+```
+
+1. 添加 react-native-screens
+
+```jsx
+yarn add react-native-screens
+```
+
+1. 开启 Fabric
+- ios ，先进入ios目录，然后执行
+
+```jsx
+RCT_NEW_ARCH_ENABLED=1 pod install
+```
+
+- android，在 android/gradle.properties 文件中添加
+
+```jsx
+newArchEnabled=true
+```
+
+然后像往常一样运行项目即可
+
+......
