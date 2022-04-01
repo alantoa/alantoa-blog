@@ -9,6 +9,10 @@ module.exports = {
   content: ['./pages/**/*.tsx', './components/**/*.tsx', './layouts/**/*.tsx', './lib/**/*.ts'],
   darkMode: 'class',
   theme: {
+    animation: {
+      'spin-slow': 'spin 3s linear infinite',
+      wiggle: 'wiggle 1s ease-in-out infinite',
+    },
     extend: {
       spacing: {
         '9/16': '56.25%',
@@ -20,6 +24,7 @@ module.exports = {
         14: '3.5rem',
       },
       fontFamily: {
+        // @ts-ignore
         sans: ['InterVariable', ...defaultTheme.fontFamily.sans],
       },
       colors: {

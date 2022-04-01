@@ -1,11 +1,21 @@
 /* eslint-disable react/display-name */
 import React, { useMemo } from 'react'
-import { ComponentMap, getMDXComponent } from 'mdx-bundler/client'
+import { ComponentMap } from 'mdx-bundler/client'
 import Image from './Image'
 import CustomLink from './Link'
 import TOCInline from './TOCInline'
 import Pre from './Pre'
 import { BlogNewsletterForm } from './NewsletterForm'
+
+import ReactDOM from 'react-dom'
+
+const _jsx_runtime = require('react/jsx-runtime')
+
+const getMDXComponent = (code) => {
+  const scope = { React, ReactDOM, _jsx_runtime }
+  const fn = new Function(...Object.keys(scope), code)
+  return fn(...Object.values(scope)).default
+}
 
 const Wrapper: React.ComponentType<{ layout: string }> = ({ layout, ...rest }) => {
   const Layout = require(`../layouts/${layout}`).default

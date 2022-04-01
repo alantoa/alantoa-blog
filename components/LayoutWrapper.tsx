@@ -7,7 +7,7 @@ import Footer from './Footer'
 import MobileNav from './MobileNav'
 import ThemeSwitch from './ThemeSwitch'
 import { ReactNode } from 'react'
-import IconFont, { AAlantoa } from './iconfont'
+import AAlantoa from './icon/AAlantoa'
 
 interface Props {
   children: ReactNode
