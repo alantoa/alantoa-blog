@@ -1,12 +1,12 @@
 import headerNavLinks from '@/data/headerNavLinks'
 import siteMetadata from '@/data/siteMetadata'
 import { ReactNode } from 'react'
+import AlanToa from './comments/AlanToa'
 import Footer from './Footer'
 import Link from './Link'
 import MobileNav from './MobileNav'
 import SectionContainer from './SectionContainer'
 import ThemeSwitch from './ThemeSwitch'
-
 interface Props {
   children: ReactNode
 }
@@ -19,7 +19,9 @@ const LayoutWrapper = ({ children }: Props) => {
           <div>
             <Link href="/" aria-label={siteMetadata.headerTitle}>
               <div className="flex items-center justify-between">
-                <div className="mr-3"></div>
+                <div className="mr-3">
+                  <AlanToa width={287} height={60} className="fill-black dark:fill-white" />
+                </div>
               </div>
             </Link>
           </div>

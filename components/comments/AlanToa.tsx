@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import React, { CSSProperties, SVGAttributes, FunctionComponent } from 'react'
+import React, { CSSProperties, FunctionComponent, SVGAttributes } from 'react'
 
 interface Props extends Omit<SVGAttributes<SVGElement>, 'color'> {
   size?: number
@@ -12,7 +12,7 @@ const DEFAULT_STYLE: CSSProperties = {
   display: 'block',
 }
 
-const AAlantoa: FunctionComponent<Props> = ({ size, color, style: _style, ...rest }) => {
+const AlanToa: FunctionComponent<Props> = ({ size, color, style: _style, ...rest }) => {
   const style = _style ? { ...DEFAULT_STYLE, ..._style } : DEFAULT_STYLE
 
   return (
@@ -22,8 +22,8 @@ const AAlantoa: FunctionComponent<Props> = ({ size, color, style: _style, ...res
   )
 }
 
-AAlantoa.defaultProps = {
+AlanToa.defaultProps = {
   size: 18,
 }
 
-export default AAlantoa
+export default AlanToa

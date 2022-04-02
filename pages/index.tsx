@@ -1,4 +1,4 @@
-import AAlantoa from '@/components/icon/AAlantoa'
+import AlanToa from '@/components/comments/AlanToa'
 import Image from '@/components/Image'
 import Link from '@/components/Link'
 import { PageSEO } from '@/components/SEO'
@@ -44,7 +44,7 @@ export default function Home({ frontMatter }: InferGetStaticPropsType<typeof get
               height="140"
               className="rounded-full"
             />
-            <AAlantoa width={500} height={80} className="mt-8 fill-slate-50" />
+            <AlanToa width={500} height={80} className="mt-8 fill-slate-50" />
             <div className="flex space-x-8 pt-6 text-2xl">
               <Link href="/blog">
                 <ImBlog />
