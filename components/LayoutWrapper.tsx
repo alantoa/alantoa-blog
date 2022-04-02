@@ -1,12 +1,11 @@
-import siteMetadata from '@/data/siteMetadata'
 import headerNavLinks from '@/data/headerNavLinks'
-import Link from './Link'
-import SectionContainer from './SectionContainer'
-import Footer from './Footer'
-import MobileNav from './MobileNav'
-import ThemeSwitch from './ThemeSwitch'
+import siteMetadata from '@/data/siteMetadata'
 import { ReactNode } from 'react'
-import AAlantoa from './icon/AAlantoa'
+import Footer from './Footer'
+import Link from './Link'
+import MobileNav from './MobileNav'
+import SectionContainer from './SectionContainer'
+import ThemeSwitch from './ThemeSwitch'
 
 interface Props {
   children: ReactNode
