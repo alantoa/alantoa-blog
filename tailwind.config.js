@@ -9,10 +9,7 @@ module.exports = {
   content: ['./pages/**/*.tsx', './components/**/*.tsx', './layouts/**/*.tsx', './lib/**/*.ts'],
   darkMode: 'class',
   theme: {
-    animation: {
-      'spin-slow': 'spin 3s linear infinite',
-      wiggle: 'wiggle 1s ease-in-out infinite',
-    },
+    animation: {},
     extend: {
       spacing: {
         '9/16': '56.25%',

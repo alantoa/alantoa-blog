@@ -1,7 +1,6 @@
 import headerNavLinks from '@/data/headerNavLinks'
 import siteMetadata from '@/data/siteMetadata'
 import { ReactNode } from 'react'
-import AlanToa from './comments/AlanToa'
 import Footer from './Footer'
 import Link from './Link'
 import MobileNav from './MobileNav'
@@ -19,8 +18,22 @@ const LayoutWrapper = ({ children }: Props) => {
           <div>
             <Link href="/" aria-label={siteMetadata.headerTitle}>
               <div className="flex items-center justify-between">
-                <div className="mr-3">
-                  <AlanToa width={287} height={60} className="fill-black dark:fill-white" />
+                <svg
+                  width="60"
+                  height="60"
+                  viewBox="0 0 150 150"
+                  fill="#fff"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M62.007 36.7175L66.9359 42.9395L38.5136 102.049L33.1937 101.638L62.007 36.7175Z" />
+                  <path d="M62.0295 36.7112L68.3533 40.5824L79.4437 85.3876L73.1937 87.8876L62.0295 36.7112Z" />
+                  <path d="M123.243 68.6312L116.342 75.6207L29.4439 109.138L33.1938 101.638L123.243 68.6312Z" />
+                  <path d="M76.9436 106.638L82.5686 104.138L84.4436 109.138H76.9436V106.638Z" />
+                  <path d="M96.1034 82.8775L99.4437 80.3877L107.457 108.968L102.931 109.081L96.1034 82.8775Z" />
+                </svg>
+                <div className="mr-3 hidden font-sans text-2xl font-bold sm:block">
+                  ALANTOA BLOG
+                  {/* <AlanToa width={287} height={60} className="fill-black dark:fill-white" /> */}
                 </div>
               </div>
             </Link>
