@@ -6,6 +6,5 @@ export type AuthorFrontMatter = {
   company: string
   email: string
   twitter: string
-  linkedin: string
   github: string
 }

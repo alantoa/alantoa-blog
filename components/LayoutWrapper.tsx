@@ -17,12 +17,12 @@ const LayoutWrapper = ({ children }: Props) => {
         <header className="flex items-center justify-between py-10">
           <div>
             <Link href="/" aria-label={siteMetadata.headerTitle}>
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between text-black dark:text-white">
                 <svg
                   width="60"
                   height="60"
                   viewBox="0 0 150 150"
-                  fill="#fff"
+                  fill="currentColor"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path d="M62.007 36.7175L66.9359 42.9395L38.5136 102.049L33.1937 101.638L62.007 36.7175Z" />
@@ -31,10 +31,6 @@ const LayoutWrapper = ({ children }: Props) => {
                   <path d="M76.9436 106.638L82.5686 104.138L84.4436 109.138H76.9436V106.638Z" />
                   <path d="M96.1034 82.8775L99.4437 80.3877L107.457 108.968L102.931 109.081L96.1034 82.8775Z" />
                 </svg>
-                <div className="mr-3 hidden font-sans text-2xl font-bold sm:block">
-                  ALANTOA BLOG
-                  {/* <AlanToa width={287} height={60} className="fill-black dark:fill-white" /> */}
-                </div>
               </div>
             </Link>
           </div>
@@ -54,7 +50,7 @@ const LayoutWrapper = ({ children }: Props) => {
             <MobileNav />
           </div>
         </header>
-        <main className="mb-auto h-full w-full">{children}</main>
+        <main className="mb-auto w-full">{children}</main>
         <Footer />
       </div>
     </SectionContainer>

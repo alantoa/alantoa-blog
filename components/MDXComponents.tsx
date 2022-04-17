@@ -1,13 +1,12 @@
 /* eslint-disable react/display-name */
-import React, { useMemo } from 'react'
 import { ComponentMap } from 'mdx-bundler/client'
+import React, { useMemo } from 'react'
+import ReactDOM from 'react-dom'
 import Image from './Image'
 import CustomLink from './Link'
-import TOCInline from './TOCInline'
-import Pre from './Pre'
 import { BlogNewsletterForm } from './NewsletterForm'
-
-import ReactDOM from 'react-dom'
+import Pre from './Pre'
+import TOCInline from './TOCInline'
 
 const _jsx_runtime = require('react/jsx-runtime')
 
