@@ -2,7 +2,8 @@
 name: Alan Toa
 avatar: /static/images/avatar.png
 occupation: Front-end
-company: Freelancers
+company: Showtime✨
+companyLink: https://showtime.xyz/
 email: toacncom@gmail.com
 twitter: https://twitter.com/alan_toa
 github: https://github.com/alantoa
@@ -17,5 +18,3 @@ Now mainly focusing on React/React Native/Web3, besides, I also have some Backen
 I love code, and enjoy coding, passionate about open source.
 
 Aside from code, I like to read history, especially Modern history in Europe & America.
-
-And at last, "In God We Trust", God bless you!
