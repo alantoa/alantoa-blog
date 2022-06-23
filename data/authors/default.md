@@ -2,8 +2,8 @@
 name: Alan Toa
 avatar: /static/images/avatar.png
 occupation: Front-end
-company: Showtime✨
-companyLink: https://showtime.xyz/
+company:
+companyLink:
 email: toacncom@gmail.com
 twitter: https://twitter.com/alan_toa
 github: https://github.com/alantoa
