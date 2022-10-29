@@ -1,16 +1,29 @@
 import headerNavLinks from '@/data/headerNavLinks'
 import siteMetadata from '@/data/siteMetadata'
+import {
+  ConnectButton,
+  useAccountModal,
+  useChainModal,
+  useConnectModal,
+} from '@rainbow-me/rainbowkit'
 import { ReactNode } from 'react'
+import { useDisconnect } from 'wagmi'
 import Footer from './Footer'
 import Link from './Link'
 import MobileNav from './MobileNav'
 import SectionContainer from './SectionContainer'
 import ThemeSwitch from './ThemeSwitch'
+
 interface Props {
   children: ReactNode
 }
 
 const LayoutWrapper = ({ children }: Props) => {
+  const { openConnectModal } = useConnectModal()
+  const { openAccountModal } = useAccountModal()
+  const { openChainModal } = useChainModal()
+  const { disconnect } = useDisconnect()
+
   return (
     <SectionContainer>
       <div className="flex h-screen flex-col justify-between">
@@ -47,6 +60,38 @@ const LayoutWrapper = ({ children }: Props) => {
               ))}
             </div>
             <ThemeSwitch />
+            <ConnectButton.Custom>
+              {({ openConnectModal, account }) => {
+                return (
+                  !account && (
+                    <button
+                      onClick={() => {
+                        openConnectModal()
+                      }}
+                      className="ml-1"
+                    >
+                      Sign in
+                    </button>
+                  )
+                )
+              }}
+            </ConnectButton.Custom>
+            <ConnectButton.Custom>
+              {({ account }) => {
+                return (
+                  account && (
+                    <button
+                      onClick={() => {
+                        openAccountModal()
+                      }}
+                      className="ml-1"
+                    >
+                      Sign out
+                    </button>
+                  )
+                )
+              }}
+            </ConnectButton.Custom>
             <MobileNav />
           </div>
         </header>

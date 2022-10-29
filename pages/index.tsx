@@ -35,6 +35,7 @@ export default function Home({ frontMatter }: InferGetStaticPropsType<typeof get
         /> */}
 
         <div className="absolute left-0 top-0 h-full w-full bg-black opacity-30" />
+
         <div className="relative flex h-full w-full flex-row items-center justify-center space-x-24">
           <div className="-mt-32 flex select-none flex-col items-center">
             <Link href="/about" className="inline-block overflow-hidden rounded-full">
