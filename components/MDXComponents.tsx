@@ -1,5 +1,3 @@
-/* eslint-disable react/display-name */
-import { ComponentMap } from 'mdx-bundler/client'
 import React, { useMemo } from 'react'
 import ReactDOM from 'react-dom'
 import Image from './Image'
@@ -10,7 +8,7 @@ import TOCInline from './TOCInline'
 
 const _jsx_runtime = require('react/jsx-runtime')
 
-const getMDXComponent = (code) => {
+export const getMDXComponent = (code) => {
   const scope = { React, ReactDOM, _jsx_runtime }
   const fn = new Function(...Object.keys(scope), code)
   return fn(...Object.values(scope)).default
@@ -21,14 +19,12 @@ const Wrapper: React.ComponentType<{ layout: string }> = ({ layout, ...rest }) =
   return <Layout {...rest} />
 }
 
-export const MDXComponents: ComponentMap = {
+export const MDXComponents = {
   Image,
-  //@ts-ignore
   TOCInline,
   a: CustomLink,
   pre: Pre,
   wrapper: Wrapper,
-  //@ts-ignore
   BlogNewsletterForm,
 }
 

@@ -4,10 +4,8 @@ import { PageSEO } from '@/components/SEO'
 import siteMetadata from '@/data/siteMetadata'
 import { getFileBySlug } from '@/lib/mdx'
 import { GetStaticProps, InferGetStaticPropsType } from 'next'
-import { FiTwitter } from 'react-icons/fi'
-import { ImBlog } from 'react-icons/im'
-import { MdWorkOutline } from 'react-icons/md'
-import { RiGithubLine } from 'react-icons/ri'
+import { AiFillGithub, AiOutlineTwitter } from 'react-icons/ai'
+import { MdEmail } from 'react-icons/md'
 import { AuthorFrontMatter } from 'types/AuthorFrontMatter'
 
 // @ts-ignore
@@ -58,18 +56,31 @@ export default function Home({ frontMatter }: InferGetStaticPropsType<typeof get
             </Link>
             <span className="-mt-4 font-serif text-white">ALAN · TOA</span>
             <div className="flex space-x-8 pt-6 text-2xl">
-              <Link href="/blog">
-                <ImBlog className="text-white transition duration-300 hover:text-gray-400" />
-              </Link>
               <a target="_blank" rel="noopener noreferrer" href="https://github.com/alantoa">
-                <RiGithubLine className="text-white transition duration-300 hover:text-gray-400" />
+                <AiFillGithub className="text-white transition duration-300 hover:text-gray-400" />
               </a>
 
               <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/alan_toa">
-                <FiTwitter className="text-white transition duration-300 hover:text-gray-400" />
+                <AiOutlineTwitter className="text-white transition duration-300 hover:text-gray-400" />
               </a>
+              <Link href="/nfts">
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 129 129"
+                  fill="currentColor"
+                  className="text-white transition duration-300 hover:text-gray-400"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M28.4749 65.9339L64.3849 7.28394L100.295 65.9339L64.3849 86.8539L28.4749 65.9339Z" />
+                  <path d="M64.3849 93.444L99.1449 71.864L64.3849 121.284L28.8049 71.864L64.3849 93.444Z" />
+                </svg>
+
+                {/* <ImBlog className="text-white transition duration-300 hover:text-gray-400" /> */}
+              </Link>
+
               <a target="_blank" rel="noopener noreferrer" href="mailto: toacncom@gmail.com">
-                <MdWorkOutline className="text-white transition duration-300 hover:text-gray-400" />
+                <MdEmail className="text-white transition duration-300 hover:text-gray-400" />
               </a>
             </div>
           </div>

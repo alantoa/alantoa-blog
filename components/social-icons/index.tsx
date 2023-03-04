@@ -1,17 +1,16 @@
-import Facebook from './facebook.svg'
-import Github from './github.svg'
-import Mail from './mail.svg'
-import Twitter from './twitter.svg'
-import Youtube from './youtube.svg'
+import { AiFillGithub, AiOutlineTwitter } from 'react-icons/ai'
+import { MdEmail } from 'react-icons/md'
+import ETH from './eth.svg'
+import Polygon from './polygon.svg'
 
 // Icons taken from: https://simpleicons.org/
 
 const components = {
-  mail: Mail,
-  github: Github,
-  facebook: Facebook,
-  youtube: Youtube,
-  twitter: Twitter,
+  mail: MdEmail,
+  github: AiFillGithub,
+  twitter: AiOutlineTwitter,
+  eth: ETH,
+  polygon: Polygon,
 }
 
 const SocialIcon = ({ kind, href, size = 8 }) => {

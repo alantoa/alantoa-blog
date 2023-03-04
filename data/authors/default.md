@@ -1,7 +1,9 @@
 ---
 name: Alan Toa
 avatar: /static/images/avatar.png
-occupation: Front-end
+occupation: software engineer
+address: '0x5969140066E0Efb3ee6e01710f319Bd8F19542C0'
+ens: alantoa.eth
 company:
 companyLink:
 email: toacncom@gmail.com
@@ -9,12 +11,10 @@ twitter: https://twitter.com/alan_toa
 github: https://github.com/alantoa
 ---
 
-## Hi, there 🤟
+## Gm, frens! 🦄️
 
-I'm Alan, live in Shanghai, I have three years of front-end experience.
+I'm a frontend engineer based in Shanghai, with a focus on React (Native)/Web3, Swift, and Kotlin.
 
-Now mainly focusing on React/React Native/Web3, besides, I also have some Backend(Node.js)/Spider(Python) experience.
+I love coding and am particularly passionate about open source projects.
 
-I love code, and enjoy coding, passionate about open source.
-
-Aside from code, I like to read history, especially Modern history in Europe & America.
+You can check out my [Twitter](https://twitter.com/alan_toa) or [Github](https://github.com/alantoa) to find some awesome projects that I've worked on.

@@ -12,6 +12,7 @@ import rehypePrismPlus from 'rehype-prism-plus'
 import rehypeSlug from 'rehype-slug'
 import remarkFootnotes from 'remark-footnotes'
 // Remark packages
+import type { ReadTimeResults } from 'reading-time'
 import remarkGfm from 'remark-gfm'
 import remarkMath from 'remark-math'
 import { AuthorFrontMatter } from 'types/AuthorFrontMatter'
@@ -42,7 +43,20 @@ export function dateSortDesc(a: string, b: string) {
   return 0
 }
 
-export async function getFileBySlug<T>(type: 'authors' | 'blog', slug: string | string[]) {
+export async function getFileBySlug<T = unknown>(
+  type: 'authors' | 'blog',
+  slug: string | string[]
+): Promise<{
+  mdxSource: string
+  toc: Toc
+  frontMatter:
+    | {
+        date: string
+        readingTime: ReadTimeResults
+        slug: string | string[]
+        fileName: string
+      } & T
+}> {
   const mdxPath = path.join(root, 'data', type, `${slug}.mdx`)
   const mdPath = path.join(root, 'data', type, `${slug}.md`)
   const source = fs.existsSync(mdxPath)
@@ -62,7 +76,7 @@ export async function getFileBySlug<T>(type: 'authors' | 'blog', slug: string | 
     source,
     // mdx imports can be automatically source from the components directory
     cwd: path.join(root, 'components'),
-    xdmOptions(options, frontmatter) {
+    mdxOptions(options) {
       // this is the recommended way to add custom remark/rehype plugins:
       // The syntax might look weird, but it protects you in case we add/remove
       // plugins in the future.
@@ -103,7 +117,7 @@ export async function getFileBySlug<T>(type: 'authors' | 'blog', slug: string | 
       readingTime: readingTime(code),
       slug: slug || null,
       fileName: fs.existsSync(mdxPath) ? `${slug}.mdx` : `${slug}.md`,
-      ...frontmatter,
+      ...(frontmatter as T),
       date: frontmatter.date ? new Date(frontmatter.date).toISOString() : null,
     },
   }

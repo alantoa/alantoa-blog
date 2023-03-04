@@ -100,4 +100,8 @@ module.exports = withBundleAnalyzer({
 
     return config
   },
+  images: {
+    disableStaticImages: false,
+    domains: ['i.seadn.io'],
+  },
 })
