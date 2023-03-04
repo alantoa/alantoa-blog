@@ -11,14 +11,12 @@ import siteMetadata from '@/data/siteMetadata'
 import { ThemeProvider } from 'next-themes'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
-import React from 'react'
 
 const isDevelopment = process.env.NODE_ENV === 'development'
 const isSocket = process.env.SOCKET
 
 export default function App({ Component, pageProps, router }: AppProps) {
-  const disableLayout = [`/`].includes(router.pathname)
-  const LayoutComponent = disableLayout ? React.Fragment : LayoutWrapper
+  // const disableLayout = [`/`].includes(router.pathname)
 
   return (
     <ThemeProvider attribute="class" defaultTheme={siteMetadata.theme}>
@@ -27,9 +25,9 @@ export default function App({ Component, pageProps, router }: AppProps) {
       </Head>
       {isDevelopment && isSocket && <ClientReload />}
       <Analytics />
-      <LayoutComponent>
+      <LayoutWrapper>
         <Component {...pageProps} />
-      </LayoutComponent>
+      </LayoutWrapper>
     </ThemeProvider>
   )
 }

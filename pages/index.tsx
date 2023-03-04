@@ -1,89 +1,79 @@
+import { Button } from '@/components/Button'
 import Image from '@/components/Image'
-import Link from '@/components/Link'
+import { getMDXComponent } from '@/components/MDXComponents'
 import { PageSEO } from '@/components/SEO'
-import siteMetadata from '@/data/siteMetadata'
+import SocialIcon from '@/components/social-icons'
 import { getFileBySlug } from '@/lib/mdx'
+import { formatAddress } from '@/lib/utils/formatAddress'
 import { GetStaticProps, InferGetStaticPropsType } from 'next'
-import { AiFillGithub, AiOutlineTwitter } from 'react-icons/ai'
-import { MdEmail } from 'react-icons/md'
+import { useMemo } from 'react'
+import { toast } from 'react-hot-toast'
+import { RxCopy } from 'react-icons/rx'
+
 import { AuthorFrontMatter } from 'types/AuthorFrontMatter'
+
+const DEFAULT_LAYOUT = 'AuthorLayout'
 
 // @ts-ignore
 export const getStaticProps: GetStaticProps<{
-  frontMatter: AuthorFrontMatter
+  authorDetails: { mdxSource: string; frontMatter: AuthorFrontMatter }
 }> = async () => {
   const authorDetails = await getFileBySlug<AuthorFrontMatter>('authors', ['default'])
-  const { frontMatter } = authorDetails
-  return { props: { frontMatter } }
+
+  return { props: { authorDetails } }
 }
 
-export default function Home({ frontMatter }: InferGetStaticPropsType<typeof getStaticProps>) {
+export default function About({ authorDetails }: InferGetStaticPropsType<typeof getStaticProps>) {
+  const { mdxSource, frontMatter } = authorDetails
+  const { name, avatar, occupation, company, companyLink, email, twitter, github, address, ens } =
+    frontMatter
+  const MDXLayout = useMemo(() => getMDXComponent(mdxSource), [mdxSource])
+
   return (
     <>
-      <PageSEO title={siteMetadata.title} description={siteMetadata.description} />
-
-      <div className="relative h-screen overflow-hidden">
-        {/* <video
-          src="https://player.vimeo.com/external/181445574.hd.mp4?s=d24f32d879305e931468d55e4d7ce6efb5a95c39&amp;profile_id=119"
-          autoPlay
-          loop
-          playsInline
-          muted
-          className="absolute top-0 left-0 h-full w-full object-cover"
-        /> */}
-
-        <div className="absolute left-0 top-0 h-full w-full bg-black opacity-30" />
-
-        <div className="relative flex h-full w-full flex-row items-center justify-center space-x-24">
-          <div className="-mt-32 flex select-none flex-col items-center">
-            <Link href="/about" className="inline-block overflow-hidden rounded-full">
-              <Image src={frontMatter.avatar} alt="me" width="120" height="120" />
-            </Link>
-            <Link href="/blog">
-              <svg
-                width="150"
-                height="150"
-                viewBox="0 0 150 150"
-                fill="#fff"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path d="M62.007 36.7175L66.9359 42.9395L38.5136 102.049L33.1937 101.638L62.007 36.7175Z" />
-                <path d="M62.0295 36.7112L68.3533 40.5824L79.4437 85.3876L73.1937 87.8876L62.0295 36.7112Z" />
-                <path d="M123.243 68.6312L116.342 75.6207L29.4439 109.138L33.1938 101.638L123.243 68.6312Z" />
-                <path d="M76.9436 106.638L82.5686 104.138L84.4436 109.138H76.9436V106.638Z" />
-                <path d="M96.1034 82.8775L99.4437 80.3877L107.457 108.968L102.931 109.081L96.1034 82.8775Z" />
-              </svg>
-            </Link>
-            <span className="-mt-4 font-serif text-white">ALAN · TOA</span>
-            <div className="flex space-x-8 pt-6 text-2xl">
-              <a target="_blank" rel="noopener noreferrer" href="https://github.com/alantoa">
-                <AiFillGithub className="text-white transition duration-300 hover:text-gray-400" />
-              </a>
-
-              <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/alan_toa">
-                <AiOutlineTwitter className="text-white transition duration-300 hover:text-gray-400" />
-              </a>
-              <Link href="/nfts">
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 129 129"
-                  fill="currentColor"
-                  className="text-white transition duration-300 hover:text-gray-400"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M28.4749 65.9339L64.3849 7.28394L100.295 65.9339L64.3849 86.8539L28.4749 65.9339Z" />
-                  <path d="M64.3849 93.444L99.1449 71.864L64.3849 121.284L28.8049 71.864L64.3849 93.444Z" />
-                </svg>
-
-                {/* <ImBlog className="text-white transition duration-300 hover:text-gray-400" /> */}
-              </Link>
-
-              <a target="_blank" rel="noopener noreferrer" href="mailto: toacncom@gmail.com">
-                <MdEmail className="text-white transition duration-300 hover:text-gray-400" />
-              </a>
-            </div>
+      <PageSEO title={`About - ${name}`} description={`About me - ${name}`} />
+      <div className="items-start space-y-2 xl:grid xl:grid-cols-3 xl:gap-x-8 xl:space-y-0">
+        <div className="flex flex-col items-center space-x-2 pt-8">
+          <Image
+            src={avatar}
+            alt="avatar"
+            width={128}
+            height={128}
+            className="h-28 w-28 rounded-full md:h-32 md:w-32"
+          />
+          <h3 className="pt-4 pb-2 text-2xl font-bold leading-8 tracking-tight">{name}</h3>
+          <Button
+            onClick={async () => {
+              await navigator?.clipboard?.writeText(address)
+              toast.success('Copied!')
+            }}
+            className="flex flex-row flex-nowrap items-center justify-center rounded-md bg-gray-50 px-2 dark:bg-gray-700"
+          >
+            <span className="mr-2 text-sm text-gray-500 dark:text-gray-300">
+              {formatAddress(address)}
+            </span>
+            <RxCopy className="text-gray-500 dark:text-gray-300" />
+          </Button>
+          {/* <div className="text-gray-500 dark:text-gray-400">{formatENS(ens)}</div> */}
+          {company && companyLink && (
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href={companyLink}
+              className="text-gray-500 dark:text-gray-400"
+            >
+              {company}
+            </a>
+          )}
+          <div className="flex space-x-6 pt-4">
+            <SocialIcon kind="twitter" href={twitter} className="h-6 w-6 md:h-8 md:w-8" />
+            <SocialIcon kind="github" href={github} className="h-6 w-6 md:h-8 md:w-8" />
+            <SocialIcon kind="mail" href={`mailto:${email}`} className="h-6 w-6 md:h-8 md:w-8" />
+            <SocialIcon kind="eth" link="/nfts" className="h-6 w-6 md:h-8 md:w-8" />
           </div>
+        </div>
+        <div className="text-md prose max-w-none pt-8 dark:prose-dark xl:col-span-2">
+          <MDXLayout />
         </div>
       </div>
     </>
