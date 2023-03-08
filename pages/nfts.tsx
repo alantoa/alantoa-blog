@@ -25,7 +25,6 @@ export async function getServerSideProps() {
   }
 }
 export default function NFTs({ nfts }) {
-  console.log(nfts)
   return (
     <>
       <PageSEO title={`NFTs - ${siteMetadata.author}`} description={siteMetadata.description} />
