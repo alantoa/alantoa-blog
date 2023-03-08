@@ -4,7 +4,6 @@ import { ReactNode } from 'react'
 import { Toaster } from 'react-hot-toast'
 import Footer from './Footer'
 import Link from './Link'
-import MobileNav from './MobileNav'
 import SectionContainer from './SectionContainer'
 import ThemeSwitch from './ThemeSwitch'
 
@@ -37,7 +36,7 @@ const LayoutWrapper = ({ children }: Props) => {
             </Link>
           </div>
           <div className="flex items-center text-base leading-5">
-            <div className="hidden sm:block">
+            <div>
               {headerNavLinks.map((link) => (
                 <Link
                   key={link.title}
@@ -49,7 +48,6 @@ const LayoutWrapper = ({ children }: Props) => {
               ))}
             </div>
             <ThemeSwitch />
-            <MobileNav />
           </div>
         </header>
         <main className="mb-auto w-full">{children}</main>

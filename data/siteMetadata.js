@@ -10,7 +10,7 @@ const siteMetadata = {
   siteLogo: '/static/images/logo.png',
   image: '/static/images/avatar.png',
   socialBanner: '/static/images/twitter-card.png',
-  email: 'address@yoursite.com',
+  email: 'toacncom@gmail.com',
   github: 'https://github.com/alantoa',
   twitter: 'https://twitter.com/alan_toa',
   facebook: 'https://www.facebook.com/alan.toa.5',

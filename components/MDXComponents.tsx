@@ -2,7 +2,6 @@ import React, { useMemo } from 'react'
 import ReactDOM from 'react-dom'
 import Image from './Image'
 import CustomLink from './Link'
-import { BlogNewsletterForm } from './NewsletterForm'
 import Pre from './Pre'
 import TOCInline from './TOCInline'
 
@@ -25,7 +24,6 @@ export const MDXComponents = {
   a: CustomLink,
   pre: Pre,
   wrapper: Wrapper,
-  BlogNewsletterForm,
 }
 
 interface Props {
