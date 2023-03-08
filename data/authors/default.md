@@ -16,5 +16,3 @@ github: https://github.com/alantoa
 I'm a frontend engineer based in Shanghai, with a focus on React (Native)/Web3, Swift, and Kotlin.
 
 I love coding and am particularly passionate about open source projects.
-
-You can check out my [Twitter](https://twitter.com/alan_toa) or [Github](https://github.com/alantoa) to find some awesome projects that I've worked on.
