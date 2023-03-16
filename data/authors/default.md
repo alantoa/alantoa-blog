@@ -2,7 +2,7 @@
 name: Alan Toa
 avatar: /static/images/avatar.png
 occupation: software engineer
-address: '0x5969140066E0Efb3ee6e01710f319Bd8F19542C0'
+address: '0x5d81A878eF5cd194Ba63dD406bE2FB4bed440b40'
 ens: alantoa.eth
 company:
 companyLink:

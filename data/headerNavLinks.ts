@@ -3,7 +3,7 @@ const headerNavLinks = [
   // { href: '/tags', title: 'Tags' },
   // { href: '/projects', title: 'Projects' },
   // { href: '/', title: 'About' },
-  { href: '/nfts', title: 'Collections' },
+  { href: '/nfts', title: 'NFTs' },
 ]
 
 export default headerNavLinks
