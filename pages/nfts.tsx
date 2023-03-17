@@ -7,15 +7,14 @@ import siteMetadata from '@/data/siteMetadata'
 import { getFileBySlug } from '@/lib/mdx'
 import * as Tabs from '@radix-ui/react-tabs'
 import axios from 'axios'
-import chunk from 'lodash/chunk'
 import groupBy from 'lodash/groupBy'
+import { Masonry } from 'masonic'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { HiOutlineSquares2X2 } from 'react-icons/hi2'
 import Sticky from 'react-stickynode'
 import { useWindowSize } from 'react-use'
 import { AuthorFrontMatter } from 'types/AuthorFrontMatter'
-
 const getTabBarTitle = (chainIdentifier: string) => {
   switch (chainIdentifier) {
     case 'matic':
@@ -53,7 +52,7 @@ export async function getServerSideProps() {
   const tabs = Object.keys(groupData).map((key) => {
     return {
       key,
-      nfts: chunk(groupData[key], NUM_COLUMNS),
+      nfts: groupData[key],
     }
   })
 
@@ -72,6 +71,19 @@ export async function getServerSideProps() {
   }
 }
 const size = 204
+const FakeCard = ({ data: item }) => (
+  <Button onClick={() => window.open(item.permalink)} className="md:mr-4" key={item.id}>
+    {item.collection.image_url && (
+      <Image
+        className="h-full w-full object-cover md:h-[204px] md:w-[204px] md:rounded-2xl"
+        src={item.collection.image_url}
+        width={size}
+        height={size}
+        alt={'NFT cover'}
+      />
+    )}
+  </Button>
+)
 export default function NFTs({ tabs, authorDetails }) {
   const { frontMatter } = authorDetails
   const [tab, setTab] = useState('all')
@@ -80,7 +92,10 @@ export default function NFTs({ tabs, authorDetails }) {
   // useEffect(() => {
   //   ;(async () => {})()
   // }, [address])
-
+  const [showComponent, setShowComponent] = useState(false)
+  useEffect(() => {
+    setShowComponent(true)
+  }, [])
   return (
     <>
       <PageSEO title={`NFTs - ${siteMetadata.author}`} description={siteMetadata.description} />
@@ -117,7 +132,21 @@ export default function NFTs({ tabs, authorDetails }) {
                 value={item.key}
                 key={item.key}
               >
-                {item?.nfts?.map((chuckItem, index) => (
+                {showComponent && (
+                  <Masonry
+                    // Provides the data for our grid items
+                    items={item?.nfts}
+                    // Adds 8px of space between the grid cells
+                    columnGutter={8}
+                    // Sets the minimum column width to 172px
+                    columnWidth={172}
+                    // Pre-renders 5 windows worth of content
+                    overscanBy={NUM_COLUMNS}
+                    // This is the grid item component
+                    render={FakeCard}
+                  />
+                )}
+                {/* {item?.nfts?.map((chuckItem, index) => (
                   <div className="mb-0 flex md:mb-2" key={`${index}`}>
                     {chuckItem?.map((item) => (
                       <Button
@@ -137,7 +166,7 @@ export default function NFTs({ tabs, authorDetails }) {
                       </Button>
                     ))}
                   </div>
-                ))}
+                ))} */}
               </Tabs.Content>
             ))}
           </Tabs.Root>
