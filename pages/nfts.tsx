@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { Button } from '@/components/Button'
 import MyInfo from '@/components/MyInfo'
 import { PageSEO } from '@/components/SEO'
@@ -5,16 +6,17 @@ import ETH from '@/components/social-icons/eth.svg'
 import Polygon from '@/components/social-icons/polygon.svg'
 import siteMetadata from '@/data/siteMetadata'
 import { getFileBySlug } from '@/lib/mdx'
-import * as Tabs from '@radix-ui/react-tabs'
 import axios from 'axios'
-import groupBy from 'lodash/groupBy'
 import { Masonry } from 'masonic'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import 'photoswipe/dist/photoswipe.css'
+import { useCallback, useEffect, useState } from 'react'
 import { HiOutlineSquares2X2 } from 'react-icons/hi2'
+import { Gallery, GalleryProps, Item } from 'react-photoswipe-gallery'
 import Sticky from 'react-stickynode'
 import { useWindowSize } from 'react-use'
 import { AuthorFrontMatter } from 'types/AuthorFrontMatter'
+
 const getTabBarTitle = (chainIdentifier: string) => {
   switch (chainIdentifier) {
     case 'matic':
@@ -44,24 +46,24 @@ export async function getServerSideProps() {
     `https://rainbow.me/api/assets?address=${frontMatter.address}&cursor=start`
   )
   const nfts = data?.results.filter((item) => !!item.collection.image_url)
-  const groupData = {
-    all: nfts,
-    ...groupBy(nfts, 'chain_identifier'),
-  }
+  // const groupData = {
+  //   all: nfts,
+  //   ...groupBy(nfts, 'chain_identifier'),
+  // }
 
-  const tabs = Object.keys(groupData).map((key) => {
-    return {
-      key,
-      nfts: groupData[key],
-    }
-  })
+  // const tabs = Object.keys(groupData).map((key) => {
+  //   return {
+  //     key,
+  //     nfts: groupData[key],
+  //   }
+  // })
 
   try {
     return {
       props: {
         authorDetails,
         nfts,
-        tabs,
+        // tabs,
       },
     }
   } catch (e) {
@@ -71,27 +73,152 @@ export async function getServerSideProps() {
   }
 }
 const size = 204
-const FakeCard = ({ data: item }) => (
-  <Button onClick={() => window.open(item.permalink)} className="md:mr-4" key={item.id}>
-    {item.collection.image_url && (
-      <Image
-        className="h-full w-full object-cover md:h-[204px] md:w-[204px] md:rounded-2xl"
-        src={item.collection.image_url}
-        width={size}
-        height={size}
-        alt={'NFT cover'}
+const Card = ({ data: item }) => {
+  const [layout, setLayout] = useState({
+    width: 400,
+    height: 400,
+  })
+
+  const onLoadingComplete = useCallback((e: HTMLImageElement) => {
+    setLayout({
+      width: e.naturalWidth,
+      height: e.naturalHeight,
+    })
+  }, [])
+  console.log(item, item.collection.name)
+
+  return (
+    <Item
+      original={
+        item.metadata.image_url ?? item.metadata.image_thumbnail_url ?? item.collection.image_url
+      }
+      thumbnail={item.metadata.image_thumbnail_url ?? item.collection.image_url}
+      key={item.id}
+      {...layout}
+    >
+      {({ ref, open }) => (
+        <div className="cursor-pointer rounded-lg p-2 shadow shadow-slate-100 dark:bg-gray-800 md:p-3">
+          <Image
+            onClick={open}
+            ref={ref as React.MutableRefObject<HTMLImageElement>}
+            className="w-full rounded-md object-cover"
+            src={item.metadata.image_url ?? item.collection.image_url}
+            alt={'NFT cover'}
+            width={400}
+            height={400}
+            onLoadingComplete={onLoadingComplete}
+          />
+          <Button
+            onClick={() => window.open(item.permalink)}
+            className="mt-2 text-lg font-semibold text-gray-700 line-clamp-2 dark:text-gray-100"
+          >
+            {item.collection.name}
+          </Button>
+        </div>
+      )}
+    </Item>
+  )
+}
+const uiElements: GalleryProps['uiElements'] = [
+  {
+    name: 'bulletsIndicator',
+    order: 9,
+    isButton: false,
+    appendTo: 'wrapper',
+    onInit: (el, pswpInstance) => {
+      let prevIndex = -1
+      const thumbnails: HTMLElement[] = []
+
+      el.style.position = 'absolute'
+      el.style.bottom = '20px'
+      el.style.left = '10px'
+      el.style.right = '0'
+      el.style.display = 'grid'
+      el.style.gridGap = '10px'
+      el.style.gridTemplateColumns = 'repeat(auto-fit, 40px)'
+      el.style.gridTemplateRows = 'repeat(auto-fit, 40px)'
+      el.style.justifyContent = 'center'
+
+      const dataSource = pswpInstance.options.dataSource as any
+
+      for (let i = 0; i < dataSource.length; i++) {
+        const slideData = dataSource[i]
+
+        const thumbnail = document.createElement('div')
+        thumbnail.style.transition = 'transform 0.15s ease-in'
+        thumbnail.style.opacity = '0.6'
+        thumbnail.style.cursor = 'pointer'
+        thumbnail.onclick = (e: MouseEvent) => {
+          const target = e.target as HTMLImageElement | HTMLDivElement
+          const thumbnailEl =
+            target.tagName === 'IMG'
+              ? target.parentElement
+              : (e.target as HTMLImageElement | HTMLDivElement)
+          if (thumbnailEl) {
+            pswpInstance.goTo(thumbnails.indexOf(thumbnailEl))
+          }
+        }
+
+        const thumbnailImage = document.createElement('img')
+        thumbnailImage.setAttribute('src', slideData.msrc || '')
+        thumbnailImage.style.width = '100%'
+        thumbnailImage.style.height = '100%'
+        thumbnailImage.style.objectFit = 'cover'
+
+        thumbnail.appendChild(thumbnailImage)
+
+        el.appendChild(thumbnail)
+
+        thumbnails.push(thumbnail)
+      }
+
+      pswpInstance.on('change', () => {
+        if (prevIndex >= 0) {
+          const prevThumbnail = thumbnails[prevIndex]
+          prevThumbnail.style.opacity = '0.6'
+          prevThumbnail.style.cursor = 'pointer'
+          prevThumbnail.style.transform = 'scale(1)'
+        }
+
+        const currentThumbnail = thumbnails[pswpInstance.currIndex]
+        currentThumbnail.style.opacity = '1'
+        currentThumbnail.style.cursor = 'unset'
+        currentThumbnail.style.transform = 'scale(1.2)'
+
+        prevIndex = pswpInstance.currIndex
+      })
+    },
+  },
+]
+const List = ({ list }) => {
+  return (
+    <Gallery
+      options={{
+        arrowNext: false,
+        arrowPrev: false,
+      }}
+      // uiElements={uiElements}
+    >
+      <Masonry
+        // Provides the data for our grid items
+        items={list}
+        // Adds 8px of space between the grid cells
+        columnGutter={8}
+        // Sets the minimum column width to 172px
+        columnWidth={172}
+        // Pre-renders 5 windows worth of content
+        overscanBy={NUM_COLUMNS}
+        // This is the grid item component
+        render={Card}
+        id="gallery"
       />
-    )}
-  </Button>
-)
-export default function NFTs({ tabs, authorDetails }) {
+    </Gallery>
+  )
+}
+export default function NFTs({ nfts, authorDetails }) {
   const { frontMatter } = authorDetails
-  const [tab, setTab] = useState('all')
   const { width } = useWindowSize()
 
-  // useEffect(() => {
-  //   ;(async () => {})()
-  // }, [address])
   const [showComponent, setShowComponent] = useState(false)
   useEffect(() => {
     setShowComponent(true)
@@ -104,72 +231,7 @@ export default function NFTs({ tabs, authorDetails }) {
           <MyInfo authorDetails={frontMatter} />
         </Sticky>
         <div className="text-md -mx-4 max-w-none pt-8 sm:-mx-6 md:-mx-0 xl:col-span-2">
-          <Tabs.Root defaultValue={tab} onValueChange={setTab}>
-            <Sticky className="relative z-10">
-              <Tabs.List className="-mx-2 mb-2 bg-white px-2 pt-2 dark:bg-gray-900">
-                {tabs.map((item) => (
-                  <Tabs.Trigger className="mr-2" value={item.key} key={item.key}>
-                    <Button className="rounded-md px-2 sm:hover:bg-gray-100 sm:hover:dark:bg-gray-800">
-                      <div className="flex flex-row items-center justify-center">
-                        {getTabBarTitle(item.key).icon}
-                        <span className="ml-1 text-base font-semibold md:text-lg">
-                          {getTabBarTitle(item.key).name}
-                        </span>
-                      </div>
-                    </Button>
-                    <div
-                      className={`mt-1 h-0.5 bg-black duration-200 dark:bg-gray-50 ${
-                        item.key === tab ? 'opacity-90' : 'opacity-0'
-                      }`}
-                    ></div>
-                  </Tabs.Trigger>
-                ))}
-              </Tabs.List>
-            </Sticky>
-            {tabs.map((item) => (
-              <Tabs.Content
-                className="flex flex-row flex-wrap items-start"
-                value={item.key}
-                key={item.key}
-              >
-                {showComponent && (
-                  <Masonry
-                    // Provides the data for our grid items
-                    items={item?.nfts}
-                    // Adds 8px of space between the grid cells
-                    columnGutter={8}
-                    // Sets the minimum column width to 172px
-                    columnWidth={172}
-                    // Pre-renders 5 windows worth of content
-                    overscanBy={NUM_COLUMNS}
-                    // This is the grid item component
-                    render={FakeCard}
-                  />
-                )}
-                {/* {item?.nfts?.map((chuckItem, index) => (
-                  <div className="mb-0 flex md:mb-2" key={`${index}`}>
-                    {chuckItem?.map((item) => (
-                      <Button
-                        onClick={() => window.open(item.permalink)}
-                        className="md:mr-4"
-                        key={item.id}
-                      >
-                        {item.collection.image_url && (
-                          <Image
-                            className="h-full w-full object-cover md:h-[204px] md:w-[204px] md:rounded-2xl"
-                            src={item.collection.image_url}
-                            width={size}
-                            height={size}
-                            alt={'NFT cover'}
-                          />
-                        )}
-                      </Button>
-                    ))}
-                  </div>
-                ))} */}
-              </Tabs.Content>
-            ))}
-          </Tabs.Root>
+          {showComponent && <List list={nfts} />}
         </div>
       </div>
     </>
