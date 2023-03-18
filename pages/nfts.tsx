@@ -97,7 +97,7 @@ const Card = ({ data: item }) => {
       {...layout}
     >
       {({ ref, open }) => (
-        <div className="cursor-pointer rounded-lg p-2 shadow shadow-slate-100 dark:bg-gray-800 md:p-3">
+        <div className="cursor-pointer rounded-lg p-2 shadow shadow-slate-100 dark:bg-gray-800 dark:shadow-none md:p-3">
           <Image
             onClick={open}
             ref={ref as React.MutableRefObject<HTMLImageElement>}
