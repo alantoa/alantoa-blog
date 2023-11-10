@@ -1,5 +1,4 @@
 /* eslint-disable @next/next/no-img-element */
-import { Button } from '@/components/Button'
 import MyInfo from '@/components/MyInfo'
 import { PageSEO } from '@/components/SEO'
 import ETH from '@/components/social-icons/eth.svg'
@@ -43,9 +42,11 @@ export async function getServerSideProps() {
   const authorDetails = await getFileBySlug<AuthorFrontMatter>('authors', ['default'])
   const { frontMatter } = authorDetails
   const { data } = await axios.get(
-    `https://rainbow.me/api/assets?address=${frontMatter.address}&cursor=start`
+    `https://rainbow.me/profile/api/assets?address=${frontMatter.address}&cursor=start`
   )
-  const nfts = data?.results.filter((item) => !!item.collection.image_url)
+  const nfts = data?.nfts?.filter(
+    (item) => !!item.image_url && (item.chain === 'base' || item.chain === 'zora')
+  )
   // const groupData = {
   //   all: nfts,
   //   ...groupBy(nfts, 'chain_identifier'),
@@ -85,14 +86,11 @@ const Card = ({ data: item }) => {
       height: e.naturalHeight,
     })
   }, [])
-  console.log(item, item.collection.name)
 
   return (
     <Item
-      original={
-        item.metadata.image_url ?? item.metadata.image_thumbnail_url ?? item.collection.image_url
-      }
-      thumbnail={item.metadata.image_thumbnail_url ?? item.collection.image_url}
+      original={item.image_url}
+      thumbnail={item.previews.image_large_url ?? item.image_url}
       key={item.id}
       {...layout}
     >
@@ -102,18 +100,15 @@ const Card = ({ data: item }) => {
             onClick={open}
             ref={ref as React.MutableRefObject<HTMLImageElement>}
             className="w-full rounded-md object-cover"
-            src={item.metadata.image_url ?? item.collection.image_url}
+            src={item.image_url}
             alt={'NFT cover'}
             width={400}
             height={400}
             onLoadingComplete={onLoadingComplete}
           />
-          <Button
-            onClick={() => window.open(item.permalink)}
-            className="mt-2 text-lg font-semibold text-gray-700 line-clamp-2 dark:text-gray-100"
-          >
-            {item.collection.name}
-          </Button>
+          <p className="mt-2 text-lg font-semibold text-gray-700 line-clamp-2 dark:text-gray-100">
+            {item.name}
+          </p>
         </div>
       )}
     </Item>

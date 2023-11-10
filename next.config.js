@@ -102,6 +102,6 @@ module.exports = withBundleAnalyzer({
   },
   images: {
     disableStaticImages: false,
-    domains: ['i.seadn.io'],
+    domains: ['i.seadn.io', 'lh3.googleusercontent.com', 'cdn.simplehash.com'],
   },
 })
